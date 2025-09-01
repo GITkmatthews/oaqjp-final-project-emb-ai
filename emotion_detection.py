@@ -6,5 +6,10 @@ def emotion_detector(text_to_analyze):  # Function definition. Takes string inpu
     response = requests.post(url, json = myobj, headers=header)  # Send a POST request to the API with the text and headers
     return response.text  # Return the response text from the API
 
-
-   
+ # Parsing the JSON response from the API
+    formatted_response = json.loads(response.text)
+    # Extracting sentiment label and score from the response
+    label = formatted_response['emotionPredictions']['emotion']
+    score = formatted_response['emotionPredictions']['score']
+    # Returning a dictionary containing sentiment analysis results
+    return {'emotion': label, 'score': score}
