@@ -10,6 +10,7 @@ def emotion_detector(text_to_analyze):  # Function definition. Takes string inpu
     formatted_response = json.loads(response.text)  #Parsing the JSON response from the API
     emotion_scores = formatted_response['emotionPredictions'][0]['emotion']
     dominant_emotion = max(emotion_scores, key=emotion_scores.get) # Get dominate score from the response
+# Build dictionary to return 
     dict_emotion_score = {
     "anger": emotion_scores['anger'],
     "disgust": emotion_scores['disgust'],
