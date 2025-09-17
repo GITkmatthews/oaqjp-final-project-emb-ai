@@ -1,3 +1,4 @@
+"""Flask app to analyze emotion in a string of data"""
 from flask import Flask, render_template, request
 from EmotionDetection.emotion_detection import emotion_detector
 
@@ -5,8 +6,9 @@ app = Flask("Emotion Detector")
 
 @app.route("/emotionDetector")
 def sent_analyzer():
+    """Analyze the text for emotion"""
     text_to_analyze = request.args.get('textToAnalyze')
-    #No text provided
+    #If no text provided
     if not text_to_analyze:
         return "Invalid text! Please try again!"
     #Evaluate the text by calling emotion_detection.py
@@ -14,7 +16,7 @@ def sent_analyzer():
     #Handle the user not entering data
     if dict_emotion_score['dominant_emotion'] is None:
         return 'Invalid text! Please try again!'
-    #Handle the user entering correct data    
+    #Handle the user entering correct data
     output = (
         f"For the given statement, the system response is "
         f"'anger': {dict_emotion_score['anger']}, "
@@ -28,6 +30,7 @@ def sent_analyzer():
 
 @app.route("/")
 def render_index_page():
+    """Renders the homepage with the input form for emotion analysis."""
     return render_template('index.html')
 
 if __name__ == "__main__":
