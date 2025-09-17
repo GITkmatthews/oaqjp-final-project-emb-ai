@@ -1,15 +1,27 @@
 from flask import Flask, render_template, request
 from EmotionDetection.emotion_detection import emotion_detector
+
 app = Flask("Emotion Detector")
 
 @app.route("/emotionDetector")
 def sent_analyzer():
-    # Retrieve the text to analyze from the request arguments
     text_to_analyze = request.args.get('textToAnalyze')
-    # Pass the text to the emotion_detector function and store the response
-    emotions = ['anger', 'disgust', 'fear', 'joy', 'sadness']
-    formatted_scores = ", ".join([f"'{emotion}': {response[emotion]}" for emotion in emotions])
-    return f"For the given statement, the system response is {formatted_scores}. The dominant emotion is {response['dominant_emotion']}."
+
+    if not text_to_analyze:
+        return "No text provided for analysis. Please enter a valid statement."
+
+    dict_emotion_score, _ = emotion_detector(text_to_analyze)
+
+    output = (
+        f"For the given statement, the system response is "
+        f"'anger': {dict_emotion_score['anger']}, "
+        f"'disgust': {dict_emotion_score['disgust']}, "
+        f"'fear': {dict_emotion_score['fear']}, "
+        f"'joy': {dict_emotion_score['joy']} and "
+        f"'sadness': {dict_emotion_score['sadness']}. "
+        f"The dominant emotion is {dict_emotion_score['dominant_emotion']}."
+    )
+    return output
 
 @app.route("/")
 def render_index_page():
