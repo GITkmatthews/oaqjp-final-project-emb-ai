@@ -5,7 +5,7 @@ def emotion_detector(text_to_analyze):  # Function definition. Takes string inpu
     myobj = { "raw_document": { "text": text_to_analyze } }  # Create a dictionary with the text to be analyzed
     header = {"grpc-metadata-mm-model-id": "emotion_aggregated-workflow_lang_en_stock"}  # Set the headers required for the API request
     response = requests.post(url, json = myobj, headers=header)  # Send a POST request to the API with the text and headers
-    if response.status_code == 400:
+    if response.status_code in [400, 500]:
          dict_emotion_score = {
              "anger": None,
              "disgust": None,
